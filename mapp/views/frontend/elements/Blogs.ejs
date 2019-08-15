@@ -1,0 +1,42 @@
+
+
+<% include ../helpers/format-date %>
+<%
+    const collection = 'blog';   
+    const linkPrefix   = systemConfig.prefixAdmin + `/${collection}/`;
+    const forderImage = `/uploads/${collection}/`;
+                            
+%> 
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <h2>Recent Blog</h2>
+            </div>
+        </div> 
+        <div class="row d-flex">
+            <% itemsBlog.forEach((item, index)=>{ %>
+                <%
+                    let img = '' ;
+                    if(item.images.length > 0){
+                        img = forderImage + item.images[0];
+                    };
+                %>   
+                <div class="col-md-3 d-flex ftco-animate" >
+                    <div class="blog-entry align-self-stretch" style="width: 100%; display: inline-block;">
+                        <a href="/blog" class="block-20" style="background-image: url('<%- img %>');">
+                        </a>
+                        <div class="text mt-3">
+                        <h3 class="heading mt-3"><a href="/blog/detail/<%- item.slug %>"><%- item.name %></a></h3>
+                        <div class="meta mb-3">
+                            <div><a href="/blog/detail/<%- item.slug %>"><%- formatDateHelper(item.created.time ) %></a></div>
+                            <div><a href="/blog/detail/<%- item.slug %>"><%- item.created.user_name %></a></div>
+                            <div><a href="/blog/detail/<%- item.slug %>" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                        </div>
+                        </div>
+                    </div>
+                </div> 
+            <%})%> 
+        </div>
+    </div>
+</section>

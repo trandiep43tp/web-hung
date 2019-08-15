@@ -1,0 +1,120 @@
+
+<%  include ../../helpers/formErrors %>
+<%  include ../../helpers/select-item %>   
+<%  include ../../helpers/image %>
+<%  include ../../helpers/list-image  %>
+<%  include ../../helpers/select-item %>
+<%   
+    const collection   = 'blog'; 
+    const linkPrefix   = systemConfig.prefixAdmin + `/${collection}/`;
+    const forderUpload = `/uploads/${collection}/`;
+%>
+<%
+    let imageString = '';
+    let images = item.images;
+    if( images.length >0){       
+        images.forEach((item, index)=>{   
+            if(index < images.length-1 ){
+                imageString += item + ',' ;
+            }else{
+                imageString += item;
+            };            
+        });
+    };    
+%>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Form
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <%- formErrors(errors) %>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form role="form" action="<%= linkPrefix %>save" method="POST" enctype="multipart/form-data" name="form_upload">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input class="form-control" name="name" id="name_slug" value="<%=item.name %>" >
+                            </div>
+                            <div class="form-group">
+                                <label>Slug</label>
+                                <input class="form-control" name="slug" value="<%=item.slug %>">
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select name="status" class="form-control">
+                                    <option value="novalue">Choose Status</option>
+                                    <option value="active" <%= (item.status == 'active')? 'selected = selected': '' %>> Active </option>
+                                    <option value="inactive" <%= (item.status == 'inactive')? 'selected = selected': ''%>> Inactive </option>
+                                </select>
+                            </div>                            
+                            <div class="form-group">
+                                <label>Ordering</label>
+                                <input class="form-control" type="number" name="ordering" value="<%=item.ordering %>" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Special</label>
+                                <select name="special" class="form-control">
+                                    <option value="novalue">Choose Special</option>
+                                    <option value="nomal" <%= (item.special === 'nomal')? 'selected = selected': '' %>> Nomal</option>
+                                    <option value="top_post" <%= (item.special === 'top_post')? 'selected = selected': '' %>> Top post</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <label>Hình Ảnh</label>
+                                        <input name="thumb" type="file" multiple />                                       
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <label>Image</label><br>                                      
+                                        <%- listImageHelper(forderUpload, item.images, item.name )%>                             
+                                    </div>
+                                </div>
+                            </div>              
+                            <div class="form-group">
+                                <label>Show</label>
+                                <select name="show" class="form-control">
+                                    <option value="novalue">Choose Show</option>
+                                    <option value="hidden" <%= (item.show === 'hidden')? 'selected = selected': '' %>> Hidden</option>
+                                    <option value="show" <%= (item.show === 'show')? 'selected = selected': '' %>> Show</option>
+                                </select>                                   
+                            </div>
+
+                            <div class="form-group">
+                                <label>Summary</label>
+                                <!-- <input class="form-control" name="summary" value="<%=item.summary %>" > -->
+                                <textarea class="form-control" name="summary" rows="2" id="content_summary">
+                                    <%=item.summary %>
+                                </textarea>
+                            </div>                       
+                            <div class="form-group">
+                                <label>Content</label>
+                                <textarea class="form-control" name="content" rows="2" id="content_ck123">
+                                    <%=item.content %>
+                                </textarea>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control hidden" name="id" value="<%=item.id %>" />
+                                <input class="form-control hidden" name="image_old" value="<%= imageString %>" multiple />                               
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit </button>
+                            <a type="button" href="<%= linkPrefix %>all" class="btn btn-default">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+<script>
+    CKEDITOR.replace('content_summary');
+</script>
+
+<script>
+    CKEDITOR.replace('content_ck123');
+</script>

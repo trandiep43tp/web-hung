@@ -1,0 +1,54 @@
+
+<%
+    const collection  = 'imageweb';   
+    //const linkPrefix  = systemConfig.prefixAdmin + `/${collection}/`;
+    const forderImage = `/uploads/${collection}/`;                            
+%> 
+
+<section class="home-slider owl-carousel">
+    <% if(itemsImageCarourel.length > 0){ %>
+        <% itemsImageCarourel.forEach((item, index)=>{ %>            
+            <div class="slider-item" style="background-image:url('<%-forderImage + item.image %>');">
+                <div class="overlay"></div>
+                <div class="container">
+                    <div class="row no-gutters slider-text align-items-center justify-content-center">
+                        <div class="col-md-12 ftco-animate text-center">
+                            <div class="text mb-5 pb-3">
+                                <h1 class="mb-3"><%- item.content_1 %></h1>
+                                <h2><%- item.content_2 %></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }) %> 
+    <% }else{ %>
+        <div class="slider-item" style="background-image:url(frontend/images/bg_1.jpg);">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row no-gutters slider-text align-items-center justify-content-center">
+                    <div class="col-md-12 ftco-animate text-center">
+                        <div class="text mb-5 pb-3">
+                            <h1 class="mb-3">Hello Sai Gon</h1>
+                            <h2>Hotels &amp; Resorts</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slider-item" style="background-image:url(frontend/images/bg_2.jpg);">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row no-gutters slider-text align-items-center justify-content-center">
+                    <div class="col-md-12 ftco-animate text-center">
+                        <div class="text mb-5 pb-3">
+                            <h1 class="mb-3">Hello Every body</h1>
+                            <h2>Join With Us</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% }%>   
+   
+</section>

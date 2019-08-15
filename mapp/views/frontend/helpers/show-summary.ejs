@@ -1,0 +1,36 @@
+<% 
+    actionShowSummary = (strSummary ='', parram = null ) =>{ 
+        let summary = StringToArray(strSummary);       
+        let xhtml   = '';
+        summary.forEach((item, index)=>{             
+            for (key in item) {               
+                let string =  key;
+                string     =  string.replace(/^\s+|\s+$/gm,''); 
+                string     =  string.charAt(0).toUpperCase() + string.slice(1);                               
+                if (item.hasOwnProperty(key)){  
+                    if(parram === "detail"){
+                        xhtml += `<li><a href="#"> ${string } <span> ${ item[key]} </span></a></li>`; 
+                    };
+                    if(parram === "rooms" & index < 3 ){
+                        xhtml += `<li><span>${string }: </span> ${ item[key]} </li>`;                        
+                    };                                      
+                };
+            };            
+        });        
+        return  xhtml;  
+    };
+%>   
+
+<%
+    StringToArray = (string ) =>{     
+        if(string === '') return [];
+        let ItemSummary = string.split(',');
+        let arr = [];
+        ItemSummary.map((item, index) =>{            
+            let arrtmp = item.split(':');
+            let str = `{"${arrtmp[0]}":"${arrtmp[1]}"}`;            
+            arr.push(JSON.parse(str));
+        });       
+        return arr;             
+    };
+%>

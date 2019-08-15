@@ -1,0 +1,52 @@
+
+ <% paginationHelper = (linkPrefix, pagination) =>{ 
+    
+    let totalItems        = pagination.totalItems;
+    let totalItemsperPage = pagination.totalItemsperPage;
+    let currentPage       = pagination.currentPage;
+    let totalPages        = Math.ceil(totalItems/totalItemsperPage);
+    let fromItem          = (currentPage -1)*totalItemsperPage + 1;
+    let toItem            = ((fromItem + totalItemsperPage -1)>=totalItems)? totalItems :(fromItem + totalItemsperPage -1) ;
+    let pageRanges        = pagination.pageRanges;    
+    let link              = linkPrefix + '?page=' ;  
+    let xhtml             = '';    
+    if(totalItemsperPage >= totalItems ) return '';
+   
+    let xhtmlPrevious = `<li><a  class="isDisabled" href="${linkPrefix}">&lt;</a></li>`;    
+    let xhtmlPage     = '';
+    let xhtmlNext     = `<li ><a  class="isDisabled" href="${linkPrefix}">&gt;</a></li>`;
+    if(currentPage > 1 ){       
+        xhtmlPrevious = `<li class=""><a href="${link + (currentPage -1)}">&lt;</a></li>`;
+    };    
+    if(currentPage < totalPages){
+        xhtmlNext     = `<li ><a href="${link +(currentPage + 1)}" >&gt;</a></li>`;       
+    };   
+
+    <!--viết giải thuật để không để số trang hiển thị quá nhiều -->   
+    let  middle = Math.ceil(pageRanges/2);
+    let  min    = currentPage - middle + 1; <!-- cái này có được là do ta phân tích giải thuật-->
+    let  max    = min + pageRanges - 1;
+    if( min <= 1 ){
+        min = 1;
+        max =  pageRanges ;
+    };    
+    if(max >= totalPages){
+        max = totalPages;
+        min = (max - pageRanges + 1) <= 1 ? 1: max - pageRanges + 1;
+    };
+    for(let i = min; i<= max; i++){
+        if(i== currentPage){
+            xhtmlPage +=  `<li class="active" ><a href="${link + i }" >${i}</a></li>`;
+        }else{
+        
+             xhtmlPage +=  `<li ><a href="${link + i}">${i}</a></li>`;
+        };       
+    };
+
+    xhtml = '<ul >' + xhtmlPrevious + xhtmlPage + xhtmlNext + '</ul>';
+    return `<div class="block-27">
+                ${xhtml}  
+            </div>`;
+}%> 
+
+  

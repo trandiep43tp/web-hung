@@ -1,0 +1,5 @@
+
+1. đặt điều kiện: nếu o phải là group_acb thì không cho hiển thị vùng truy cập MANAGER USER 
+    Do đặt middleware get-group-admin ở router. lấy group mà user đăng nhập đang thuộc nhóm. Trong navbar.ejs kiểm tra nếu
+    không phải là group_acb === true thì k hiển thị
+2. Trong middleware get-group-admin có đặt điều kiện nếu group này "inactive" thì k có quyền vào vùng quản trị

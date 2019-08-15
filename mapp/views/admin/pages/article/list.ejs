@@ -1,0 +1,135 @@
+
+<% include ../../helpers/status-filter %>
+<% include ../../helpers/action %>
+<% include ../../helpers/status %>
+<% include ../../helpers/special %>
+<% include ../../helpers/show %>
+<% include ../../helpers/pagination %>
+<% include ../../helpers/source-by %>
+<% include ../../helpers/sort %>
+<% include ../../helpers/select-item %>
+<% include ../../helpers/image %>
+<% include ../../helpers/actionListHelper %>
+
+<!--đây là phần định nghĩa sử dụng cho toàn bộ-->
+<%
+    const collection = 'article';
+    const linkPrefix   = systemConfig.prefixAdmin + `/${collection}/`;
+    const forderUpload = `/uploads/${collection}/`;                               
+%>
+<!--Kéo vào câu thông báo-->
+<!-- <%- locals.flash %> -->
+<% include ../../elements/flash %>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Search & Filter
+                <a href="<%= linkPrefix %>all">
+                    <span id="icon-reload" class="glyphicon glyphicon-refresh"></span>
+                </a>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="status-list col-sm-6 pl0">
+                        <!--Kéo hàm vào-->
+                        <%- filterstatusHelper(linkPrefix, statusFilter, query) %>
+                    </div>
+                    <div class="status-list col-sm-2 pl0">
+                        <!-- khi select được nhấn thì sẽ chạy java scrip trong file custom.js-->
+                        <select name="select_box_district" class="form-control">
+                            <%-selectItemHelper( DistrictItems, null, 'District' )%>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <form action="<%= linkPrefix %><%=currentStatus %>" method="GET">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="search" placeholder="Search for..."
+                                    value="<%= query %>">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info" type="submit">Search </button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="button">
+                                        <a href="<%= linkPrefix %><%=currentStatus %>">Clear</a>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                List Article
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <form role="form" class="form-inline zt-form" id="zt-form" action="" method="post">
+                    <%- actionHelper(linkPrefix ) %>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" class="cbAll">
+                                    </th>
+                                    <th>#</th>
+                                    <%- sortHelper(linkPrefix, 'Name', 'name', sort_field, sort_type, 'width: 10%; color:red') %>
+                                    <!-- <th>Thumb</th> -->
+                                    <%- sortHelper(linkPrefix, 'Status',   'status',   sort_field, sort_type, 'width: %') %>
+                                    <%- sortHelper(linkPrefix, 'Ordering', 'ordering', sort_field, sort_type) %>
+                                    <%- sortHelper(linkPrefix, 'Special',  'special',  sort_field, sort_type, 'width: %') %>
+                                    <%- sortHelper(linkPrefix, 'Show',     'show',     sort_field, sort_type, 'width: %') %>
+                                    <%- sortHelper(linkPrefix, 'District', 'district', sort_field, sort_type) %>
+                                    <th>Created</th>
+                                    <th>Modified</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%if(items.length >0 ){%>
+                                <% items.forEach((item, index)=>{ %>
+                                <!-- <h3><%= JSON.stringify(items) %></h3> -->
+                                <tr>
+                                    <td><input type="checkbox" name="cid" value="<%=item.id %>" /></td>
+                                    <td> <%= index+1 %> </td>
+                                    <td> <%=item.name %> </td>
+                                    <td> <%- statusHelper(linkPrefix, item.id, item.status) %> </td>
+                                    <td><input type="number" value="<%=item.ordering %>" class="text-center ordering"
+                                            min="1">
+                                    </td>
+                                    <td> <%- specialHelper(linkPrefix, item.id, item.special) %> </td>
+                                    <td> <%- showHelper(linkPrefix, item.id, item.show) %> </td>
+                                    <td> <%- item.district.name %></td>
+                                    <td> <%- sourceByHelper(item.created.user_name, item.created.time) %> </td>
+                                    <td> <%- sourceByHelper(item.modified.user_name, item.modified.time) %> </td>
+                                    <td>
+                                        <%- actionListHelper(linkPrefix, item.id, groupAdmin.group_acp ) %>
+                                    </td> 
+                                </tr>
+                                <% }) %>
+                                <%}else{%>
+                                <tr>
+                                    <td colspan="9">
+                                        <h3>Không có dữ liệu</h3>
+                                    </td>
+                                </tr>
+                                <%}%>                                                      
+                                </tbody>
+                            </table>
+                        </div>
+                </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">           
+            <%- paginationHelper(linkPrefix, pagination, currentStatus, query) %>
+                    </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,16 @@
+
+ <% 
+    actionListHelper   = (linkPrefix, id, group_Acb ) =>{ 
+        let linkEdit   = linkPrefix + 'form/edit/' + id;
+        let linkDelete = linkPrefix + 'delete/' + id;
+        let xhtml = `<a href="${ linkEdit }" type="button"  class="btn btn-warning btn-sm">
+                        Edit
+                    </a>`;
+        if(group_Acb === 'yes'){
+            xhtml  += ` <a href="${linkDelete}" type="button" class="btn btn-danger btn-sm btn-delete">
+                            Delete 
+                        </a>`
+        };          
+        return  xhtml;            
+    };
+%>    

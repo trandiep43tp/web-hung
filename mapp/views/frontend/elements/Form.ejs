@@ -1,0 +1,68 @@
+
+<% include ../helpers/select-item %>
+<section class="ftco-booking">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <form role="form" action="/rooms" class="booking-form" method="POST">
+                    <div class="row">
+                        <div class="col-md d-flex">
+                             <div class="form-group p-4 align-self-stretch d-flex align-items-end">
+                                <div class="wrap">
+                                    <label for="#">Price</label>
+                                    <input type="text" name="price_min" class="form-control " placeholder="Price Min">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md d-flex">
+                            <div class="form-group p-4 align-self-stretch d-flex align-items-end">
+                                <div class="wrap">
+                                    <label for="#">Price </label>
+                                    <input type="text" class="form-control" name="price_max" placeholder="Price Max">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 d-flex">
+                            <div class="form-group p-4 align-self-stretch d-flex align-items-end">
+                                <div class="wrap">
+                                    <label for="#">Sort</label>
+                                    <div class="form-field">
+                                        <div class="select-wrap">
+                                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                            <select name="sort" class="form-control">
+                                                <option value="novalue">Choose Sort</option>
+                                                <option value="asc">From Min to Max</option>
+                                                <option value="desc">From Max to Min</option>                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md d-flex">
+                            <div class="form-group p-4 align-self-stretch d-flex align-items-end">
+                                <div class="wrap">
+                                    <label for="#">District</label>
+                                    <div class="form-field">
+                                        <div class="select-wrap">
+                                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                            <select name="districtId" class="form-control">
+                                                <%- selectItemHelper(itemsDistrict, null, 'District')%>                                               
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md d-flex">
+                            <div class="form-group d-flex align-self-stretch">
+                                <input type="submit" value="Check Availability"
+                                    class="btn btn-primary py-3 px-4 align-self-stretch">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

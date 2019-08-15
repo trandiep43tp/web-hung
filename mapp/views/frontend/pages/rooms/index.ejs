@@ -1,0 +1,180 @@
+
+
+<% if(itemsImagePanels.length > 0){ %>
+    <% itemsImagePanels.forEach((item, index)=>{ %> 
+    <div class="hero-wrap" style="background-image: url('uploads/imageweb/<%= item.image %>');">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
+                <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+                    <div class="text">
+                        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="/">Home</a></span>
+                            <span>About</span></p>
+                        <h1 class="mb-4 bread">Rooms</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%})%>
+<% }else{ %>
+    <div class="hero-wrap" style="background-image: url('frontend/images/bg_1.jpg');">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
+                <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+                    <div class="text">
+                        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="/">Home</a></span>
+                            <span>About</span></p>
+                        <h1 class="mb-4 bread">Rooms</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
+
+
+<% include ../../helpers/show-summary %>
+<% include ../../helpers/select-item %> 
+<% include ../../helpers/pagination %>
+<%
+    const collection  = 'article';    
+    const link        =  '/rooms';
+    const forderImage = `/uploads/${collection}/`;                            
+%> 
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="row">
+                    <% itemsArticle.forEach((item, index)=>{ %>
+                        <%
+                            let img = '' ;
+                            if(item.images.length > 0){
+                                img = forderImage + item.images[0];
+                            }
+                        %>     
+                        <div class="col-sm col-md-6 col-lg-4 ftco-animate">
+                            <div class="room">
+                                <a href="/rooms/detail/<%- item.slug %>" class="img d-flex justify-content-center align-items-center"
+                                    style="background-image: url('<%- img %>');">
+                                    <div class="icon d-flex justify-content-center align-items-center">
+                                        <span class="icon-search2"></span>
+                                    </div>
+                                </a>
+                                <div class="text p-3 text-center">
+                                    <h3 class="mb-3" style="overflow: hidden ; height: 132px"><a href="/rooms/detail/<%- item.slug %>"><%- item.name %></a></h3>
+                                    <p><span class="price mr-2">$<%- item.price %></span> <span class="per">per night</span></p>
+                                    <ul class="list">
+                                        <%-actionShowSummary( item.summary , 'rooms' ) %>                                   
+                                    </ul>
+                                    <hr>
+                                    <p class="pt-1"><a href="/rooms/detail/<%- item.slug %>" class="btn-custom">Book Now <span
+                                                class="icon-long-arrow-right"></span></a></p>
+                                </div>
+                            </div>
+                        </div>
+                    <%})%>                    
+                </div>
+                <div class="row mt-5">
+                    <div class="col text-center">
+                        <%- paginationHelper(link, pagination) %>                       
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 sidebar">
+                <div class="sidebar-wrap bg-light ftco-animate">
+                    <h3 class="heading mb-4">Advanced Search</h3>                   
+                    <form action="/rooms" method="POST">
+                        <div class="fields">
+                            <div class="form-group">                                
+                                <input type="text" name="price_min" value="<%-itemSearch.price_min %>" class="form-control" placeholder="Price Min">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="price_max" value="<%-itemSearch.price_max %>"  class="form-control" placeholder="Price Max">
+                            </div>
+                            <div class="form-group">
+                                <div class="select-wrap one-third">
+                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                    <select name="sort"  class="form-control">
+                                        <option value="novalue">Sort Type</option>
+                                        <option value="asc"  <%- (itemSearch.sort === 'asc')? "selected = 'selected'" : "" %>>From Min to Max</option>
+                                        <option value="desc" <%- (itemSearch.sort === 'desc')? "selected = 'selected'" : "" %> >From Max to Min</option>                                       
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="select-wrap one-third">
+                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                    <select name="districtId"  class="form-control">
+                                       <%- selectItemHelper(itemsDistrict, itemSearch.districtId, "Dictrict")%>
+                                    </select>
+                                </div>
+                            </div>                            
+                            <div class="form-group">
+                                <input type="submit" value="Search" class="btn btn-primary py-3 px-5">                               
+                            </div>
+                            <div class="form-group">                              
+                                <a type="button" href="/rooms/clear" class="btn btn-success py-3 px-5" >Clear</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>               
+                <div class="sidebar-wrap bg-light ftco-animate">
+                    <h3 class="heading mb-4">Star Rating</h3>
+                    <form method="POST" class="star-rating" action="/rooms/start/<%- pagination.currentPage %>" >
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck11" name="start_5" value="5" >
+                            <label class="form-check-label" for="exampleCheck1">
+                                <p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i
+                                            class="icon-star"></i><i class="icon-star"></i><i
+                                            class="icon-star"></i></span></p>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="start_4" value="4">
+                            <label class="form-check-label" for="exampleCheck1">
+                                <p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i
+                                            class="icon-star"></i><i class="icon-star"></i><i
+                                            class="icon-star-o"></i></span></p>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="start_3" value="3">
+                            <label class="form-check-label" for="exampleCheck1">
+                                <p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i
+                                            class="icon-star"></i><i class="icon-star-o"></i><i
+                                            class="icon-star-o"></i></span></p>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="start_2" value="2">
+                            <label class="form-check-label" for="exampleCheck1">
+                                <p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i
+                                            class="icon-star-o"></i><i class="icon-star-o"></i><i
+                                            class="icon-star-o"></i></span></p>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="start_1" value="1">
+                            <label class="form-check-label" for="exampleCheck1">
+                                <p class="rate"><span><i class="icon-star"></i><i class="icon-star-o"></i><i
+                                            class="icon-star-o"></i><i class="icon-star-o"></i><i
+                                            class="icon-star-o"></i></span></p>
+                            </label>
+                        </div>                      
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<% include ../../elements/Instagram %>
+
+<script>
+   
+    
+</script>

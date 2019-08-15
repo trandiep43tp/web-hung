@@ -1,0 +1,78 @@
+
+
+<% if(itemsImagePanels.length > 0){ %>
+    <% itemsImagePanels.forEach((item, index)=>{ %> 
+    <div class="hero-wrap" style="background-image: url('uploads/imageweb/<%= item.image %>');">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
+                <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+                    <div class="text">
+                        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="/">Home</a></span>
+                            <span>Blog</span></p>
+                        <h1 class="mb-4 bread">Blog</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<%})%>
+<% }else{ %>
+    <div class="hero-wrap" style="background-image: url('frontend/images/bg_1.jpg');">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
+                <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+                    <div class="text">
+                        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="/">Home</a></span>
+                            <span>Blog</span></p>
+                        <h1 class="mb-4 bread">Blog</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
+
+<% include ../../helpers/pagination %>
+<% include ../../helpers/format-date %>
+<%
+    const collection = 'blog';   
+    const link  =  `/${collection}`;
+    const forderImage = `/uploads/${collection}/`;                            
+%> 
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row d-flex">
+            <% itemBlogs.forEach((item, index)=>{ %>               
+                <%
+                    let img = '' ;
+                    if(item.images.length > 0){
+                        img = forderImage + item.images[0];
+                    }
+                 %>  
+                <div class="col-md-3 d-flex ftco-animate">
+                    <div class="blog-entry align-self-stretch" style="width: 100%; display: inline-block;" >
+                        <a href="/blog/detail/<%- item.slug %>" class="block-20" style="background-image: url('<%-img %>');">
+                        </a>
+                        <div class="text mt-3 d-block">
+                            <h3 class="heading mt-3"><a href="/blog/detail/<%- item.slug %>"><%- item.name %></a></h3>
+                            <div class="meta mb-3">
+                                <div><a href="/blog/detail/<%- item.slug %>"><%- formatDateHelper(item.created.time )%></a></div>
+                                <div><a href="/blog/detail/<%- item.slug %>"><%- item.created.user_name %></a></div>
+                                <div><a href="/blog/detail/<%- item.slug %>" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <%})%>   
+        </div>
+        <div class="row mt-5">
+            <div class="col text-center">
+                <%- paginationHelper(link, pagination )%>                
+            </div>
+        </div>
+    </div>
+</section>

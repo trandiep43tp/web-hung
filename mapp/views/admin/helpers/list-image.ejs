@@ -1,0 +1,15 @@
+<% 
+    listImageHelper = (forder, listImage = [] , alt = '') =>{  
+        let xhtml = '';              
+        if(listImage.length == 0){
+              let   imageName = 'noavatar.jpg';
+            return `<img class="img-responsive img-avatar-list" src="${forder + imageName}" alt="${alt}" />`;        
+        }else{
+            listImage.forEach((image, index)=>{                            
+                xhtml +=`<img class="img-responsive img-avatar-list" src="${forder + image}" alt="${alt}" />` ;
+            })
+            return xhtml;
+        };       
+    };
+%>
+        

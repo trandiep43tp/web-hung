@@ -1,0 +1,13 @@
+<% 
+    showHelper = (linkPrefix, id, status) =>{ 
+        let link  = linkPrefix + 'change-show/'+ id +'/' + status;        
+        let xhtml = '';
+        if( status === 'hidden' ){
+            xhtml = '<span class="label label-success">Ẩn</span>';
+        }else if( status === 'show' ){
+            xhtml = '<span class="label label-warning">Hiện</span>';
+        };
+        return `<a href="${link}"> ${xhtml} </a>`;
+    };
+ %> 
+       

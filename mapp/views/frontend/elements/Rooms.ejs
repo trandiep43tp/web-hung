@@ -1,0 +1,73 @@
+
+
+<%
+    const collection  = 'article';   
+    //const linkPrefix  = systemConfig.prefixAdmin + `/${collection}/`;
+    const forderImage = `/uploads/${collection}/`;                            
+%> 
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <h2 class="mb-4">Our Rooms</h2>
+            </div>
+        </div>
+        <div class="row">
+            <% itemsArticle.forEach((item, index)=>{ %>
+                <%
+                    let img = '' ;
+                    if(item.images.length > 0){
+                        img = forderImage + item.images[0];
+                    };
+                %>             
+                <div class="col-sm col-md-6 col-lg-4 ftco-animate">
+                    <div class="room">
+                        <a href="/rooms" class="img d-flex justify-content-center align-items-center"
+                            style= "background-image: url('<%- img %>')">
+                            <div class="icon d-flex justify-content-center align-items-center">
+                                <span class="icon-search2"></span>
+                            </div>
+                        </a>                   
+                        <div class="text p-3 text-center">
+                            <h3 class="mb-3"><a href="/rooms"><%- item.name %></a></h3>
+                            <p><span class="price mr-2">$<%- item.price %></span> <span class="per">per night</span></p>
+                            <hr>
+                            <p class="pt-1"><a href="/rooms/detail/<%- item.slug %>" class="btn-custom">View Room Details <span
+                                        class="icon-long-arrow-right"></span></a></p>
+                        </div>
+                    </div>
+                </div>
+            <% }) %> 
+        </div>
+    </div>
+    <div class="btn-wrapper">
+        <p class="text-center">
+            <a class="btn btn-primary" href="/rooms"  title="VIEW ALL ROOMS" >VIEW ALL</a>           
+        </p>
+    </div>
+</section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script>       
+    $(document).ready(function(){      
+        $('.rooms-slider').owlCarousel({
+            loop: false,
+             nav:true,
+            autoplay: true,
+            //animateIn: 'pulse',
+            autoplay: true,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:1
+                },
+                1000:{
+                    items:1
+                }
+            }
+        })
+    });
+</script>
