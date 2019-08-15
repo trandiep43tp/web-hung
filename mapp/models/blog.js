@@ -19,7 +19,7 @@ module.exports = {
                     .find(objWhere)
                     .select('name slug images summary created ') 
                     .sort({ordering: 'asc'})                 
-                    .limit(6);
+                    .limit(8);
         } 
         if(option.task === 'items-rooms'){
             return  ItemModel
