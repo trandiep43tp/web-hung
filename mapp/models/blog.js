@@ -21,7 +21,9 @@ module.exports = {
                     .sort({ordering: 'asc'})                 
                     .limit(8);
         } 
-        if(option.task === 'items-rooms'){
+        if(option.task === 'items-blogs'){           
+           // console.log(objWhere)
+           // console.log(pagination)
             return  ItemModel
                     .find(objWhere)
                     .select('name slug images created') 
@@ -29,31 +31,32 @@ module.exports = {
                     .skip((pagination.currentPage - 1)*pagination.totalItemsperPage) 
                     .limit(pagination.totalItemsperPage);
         }
-        if(option.task === 'items-random'){
-            return  ItemModel.aggregate([
-                { $match: objWhere},
-                { $project: { images: 1 }},
-                { $sample: {size: 5}}
-            ])            
-        }
-        if(option.task === 'items-detail'){
+        
+        if(option.task === 'items-detail'){           
             return  ItemModel
-                    .findOne(parram)
+                    .findOne({slug: parram.slug})                   
                     .select('name slug status ordering special images summary content category show')                           
         }
-        if(option.task == 'items-others'){           
+        if(option.task == 'items-others'){
+            return  ItemModel.aggregate([
+                { $match: {show: 'show', status: 'active',slug: {$ne: parram.slug} }},
+                { $project: {id: 1, name: 1, slug: 1, images: 1, created: 1 }},
+                { $sample: {size: 2}}
+            ])                              
+        }       
+        if(option.task === 'items-recent'){           
             return  ItemModel
-                    .find({show: objWhere.show, _id: {$ne: parram.id} })
+                    .find({show: 'show' })
                     .select('name slug images created ') 
                     .sort({'created.time': 'desc'})
                     .limit(5);          
         }
-        if(option.task == 'items-recent-blog'){           
-            return  ItemModel
-                    .find({show: objWhere.show })
-                    .select('name slug images created ') 
-                    .sort({'created.time': 'desc'})
-                    .limit(6);          
+        if(option.task === 'items-random'){
+            return  ItemModel.aggregate([
+                { $match: objWhere},
+                { $project: { images: 1, slug: 1, created: 1 }},
+                { $sample: {size: 5}}
+            ])            
         }
     },    
     countDocuments: (objWhere, option = null)=>{

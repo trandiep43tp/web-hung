@@ -5,7 +5,7 @@ const schema = new mongoose.Schema({
       name    : String,
       status  : String,
       image   : String,
-      location: String,
+      location: String,  //theo dõi frontend hay page
       content_1 : String,
       content_2 : String,     
       created: {

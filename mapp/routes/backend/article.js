@@ -60,7 +60,7 @@ router.get('(/:status)?',async (req, res, next)=> {
 			statusFilter,
 			currentStatus,
 			query,
-			pagination,
+			pagination, 
 			sort_field,
             sort_type,
             DistrictItems		

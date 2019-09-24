@@ -4,7 +4,12 @@ const FilesHelper   = require(__path_helpers   + 'file_list');
 const forderArticle = 'public/uploads/article/';
 
 
-module.exports = {
+module.exports = { 
+    list_rooms: ()=>{
+        return  ItemModel
+                .find()
+                .select(' id name slug images price ')
+    },
    
     listItems: (objWhere, sort, pagination)=>{
         return  ItemModel
@@ -23,8 +28,8 @@ module.exports = {
     //                 { $project: {id: 1, name: 1,  price: 1 }},                       
     //             ]) 
     // },   
-    listItemsFrontend: (objWhere, parram = null, pagination = null, option = null)=>{
-       
+    listItemsFrontend: (objWhere, parram = null, pagination = null, option = null)=>{   
+        
         if(option.task === 'items-home'){                       
             return  ItemModel
                     .find(objWhere)
@@ -33,14 +38,13 @@ module.exports = {
                     .limit(6);
         }
 
-        if(option.task === 'items-rooms'){           
+        if(option.task === 'items-rooms'){          
             return  ItemModel
                     .find(objWhere)
                     .select('name slug price images summary') 
                     .sort(parram.sort)
                     .skip((pagination.currentPage - 1)*pagination.totalItemsperPage)
-                    .limit(pagination.totalItemsperPage);             
-                    
+                    .limit(pagination.totalItemsperPage);                   
         }
 
         if(option.task == 'items-detail'){
@@ -55,26 +59,26 @@ module.exports = {
                 { $project: {id: 1, name: 1, created: 1, thumb: 1 }},
                 { $sample: {size: 5}}
             ])                              
-        }  
+        } 
         
-        if(option.task == 'items-others'){           
-            return  ItemModel
-                    .find({show: 'show', status: 'active', slug: {$ne: parram.slug} })
-                    .select('name slug price images created') 
-                    .sort({'created.time': 'desc'})
-                    .limit(2);          
-        }
-
-        if(option.task === 'items-random-home'){
+        if(option.task == 'items-others'){
             return  ItemModel.aggregate([
-                { $match: objWhere},
-                { $project: { images: 1 }},
-                { $sample: {size: 5}}
-            ])     
-        }       
+                { $match: {show: 'show', status: 'active',slug: {$ne: parram.slug} }},
+                { $project: {id: 1, name: 1, slug: 1, price: 1, images: 1, created: 1 }},
+                { $sample: {size: 2}}
+            ])                              
+        } 
+               
+        // if(option.task === 'items-random-home'){
+        //     return  ItemModel.aggregate([
+        //         { $match: objWhere},
+        //         { $project: { images: 1 }},
+        //         { $sample: {size: 5}}
+        //     ])     
+        // }       
     }, 
     //đếm items   
-    countDocuments: (objWhere, option = null)=>{
+    countDocuments: (objWhere, option = null)=>{       
         return ItemModel.countDocuments(objWhere);
     },
 
@@ -90,8 +94,7 @@ module.exports = {
         return ItemModel.findById(id);
     },
 
-    changeStatus: (id, currentStatus, option = null)=>{
-       
+    changeStatus: (id, currentStatus, option = null)=>{       
         let status = (currentStatus === 'active')? 'inactive' : 'active';
         let data = {
             status,
@@ -105,12 +108,10 @@ module.exports = {
             data.status = currentStatus;
             return ItemModel.updateMany({_id: {$in: id}}, data);
         }    
-
         return ItemModel.updateOne({_id: id}, data);
     },
 
-    changeSpecial: (id, currentSpecial, option = null)=>{
-       
+    changeSpecial: (id, currentSpecial, option = null)=>{       
         let special = (currentSpecial === 'nomal')? 'top_post' : 'nomal';
         let data = {
             special,
@@ -124,13 +125,11 @@ module.exports = {
             data.special = currentSpecial;
             return ItemModel.updateMany({_id: {$in: id}}, data);
         }    
-
         return ItemModel.updateOne({_id: id}, data);
     },
 
     
     changeShow: (id, currentShow, option = null)=>{
-        //console.log(userinfo.id);
         let show = (currentShow === 'show')? 'hidden' : 'show';
 
         let data = {

@@ -13,7 +13,7 @@ module.exports = {
                     .limit(pagination.totalItemsperPage);
     }, 
     listItemsFrontend: (parram = null, option = null)=>{
-        if(option.task == 'items-home'){             
+        if(option.task === 'items-home'){             
             return  ItemModel
                     .find({status: 'active'})
                     .select('name avatar content group.name ') 

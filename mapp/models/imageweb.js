@@ -4,17 +4,21 @@ const ItemModel    = require(__path_schemas   + 'imageweb');
 const FilesHelper  = require(__path_helpers   + 'file');
  
 module.exports = {   
-    listItems: (objWhere )=>{
+    listItems: (objWhere, pagination )=>{
         return  ItemModel
                     .find(objWhere)
                     .select('name image status location created modified ')
+                    .sort({ordering: 'asc'})  //sắp xếp theo thứ tự
+                    .skip((pagination.currentPage - 1)*pagination.totalItemsperPage)   //lấy từ vị trí
+                    .limit(pagination.totalItemsperPage);
+
                    
     }, 
     listItemsFrontend: (objWhere, option = null)=>{
         if(option.task == 'items-home'){             
             return  ItemModel
                     .find(objWhere)
-                    .select('name image content_1 content_2  ')                                   
+                    .select('name image content_1 content_2 ')                                   
                     .limit(6);
         }
         if(option.task == 'items-page'){             

@@ -33,7 +33,7 @@ router.get( '(/:status)?', async(req, res, next) => {
 	await ImageWWebModels.countDocuments(objWhere).then((data)=>{
 			pagination.totalItems = data;		  
 		 });
-    ImageWWebModels.listItems(objWhere ).then((items)=> {
+    ImageWWebModels.listItems(objWhere, pagination ).then((items)=> {
         res.render(folderView + 'list', { 
             title: 'Image Web',
             items,

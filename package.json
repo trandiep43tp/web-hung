@@ -2,9 +2,14 @@
   "name": "server-09-hung",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "start": "nodemone ./bin/www"
-  },
+  "scripts": {    
+    "client-install": "cd client && npm install",
+    "start": "nodemon ./bin/www",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },  
+  "proxy": "http://localhost:3000",
   "dependencies": {
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
